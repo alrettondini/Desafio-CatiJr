@@ -4,7 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="./index.css">
+
+  <style>
+    .hide-scrollbar {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    }
+
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Edge */
+    }
+  </style>
 </head>
 <body class="bg-zinc-800">
   <!-- Header -->
@@ -42,15 +53,16 @@
       <!-- Coluna/Lista -->
       <div id="list-1" class="bg-zinc-800 border-3 m-4 border-zinc-700 w-[500px] min-h-[600px] rounded-lg flex-shrink-0 self-start">
         <!-- Título & Opções-->
-         <section class="flex justify-between items-center mx-3 my-4">
+        <section class="flex justify-between items-center mx-3 my-4">
           <!-- Title -->
           <h1 class="text-xl font-bold text-white ">Teste</h1>
           <!-- Opções da Coluna/Lista -->
           <button class="text-gray-300 text-xl leading-none pb-1 px-2 rounded-lg hover:bg-zinc-700 transition-colors">&hellip;</button>
         </section>
-
+        <!-- Tasks Container -->
+        <div id="tasks-list1">
           <!-- Task Container -->
-          <section id="task1-list1" class="border border-zinc-700 bg-zinc-800 mx-2 mb-3 rounded-md">
+          <section id="task-1" class="border border-zinc-700 bg-zinc-800 mx-2 mb-3 rounded-md">
             <!-- Prioridade & Finalizar Task -->
             <div id="priority&finalize" class="flex justify-between">
               <!-- Priority -->
@@ -65,8 +77,13 @@
             <h2 class="text-lg text-white font-semibold my-2 mx-3">Task1</h2>
             <!-- Descrição Task -->
             <p class="text-white mx-3 mb-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis sint quidem quo veritatis, libero, officiis dicta quos fuga repudiandae incidunt aut id possimus quas? Repellendus saepe recusandae voluptatem deserunt ipsum?</p>
+            <div class="my-4 text-zinc-500 font-bold">
+              <input class="ml-3 px-2 py-1 bg-zinc-300 border border-zinc-700 rounded-lg"  type="date" id="" name="">
+            </div>
           </section>
-          <!-- Fim Task Container -->
+          <!-- Fim Task Container-->
+        </div>
+        <!-- Fim Task Container -->
 
           <!-- Botão de Nova tarefa -->
           <button onclick="openTaskForm()" id="" class="openTaskFormButton flex items-center space-x-2 mx-3 mb-3 px-3 py-1 hover:bg-zinc-700 rounded transition-colors">
@@ -91,7 +108,7 @@
       <h2 class="text-4xl font-bold">Nova Tarefa</h2>
       
       <!-- Ícone Fechar Forms -->
-      <button onclick="closeTaskForm()" id="" class="closeTaskFormButton text-gray-400 hover:text-white transition">
+      <button id="closeTaskFormButton" class="text-gray-400 hover:text-white transition">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
         </svg>
@@ -108,8 +125,8 @@
         </form>
       </div>
       <div class="mt-2 mb-4 mx-4 flex items-center">
-        <label for="taskDescription" class="block text-white mb-1 text-lg">Prioridade</label>
-        <select id="taskPriority" name="taskPriorityChooser" placeholder="Digite a descrição" class=" bg-zinc-800 text-white border border-zinc-700 rounded-lg ml-40 px-3 py-2 resize-none">
+        <label for="taskPriorityInput" class="block text-white mb-1 text-lg">Prioridade</label>
+        <select id="taskPriorityInput" class=" bg-zinc-800 text-white border border-zinc-700 rounded-lg ml-40 px-3 py-2 resize-none">
           <option value="PrioritySuperHigh">Altíssima</option>
           <option value="PriorityHigh">Alta</option>
           <option value="PriorityMedium">Média</option>
@@ -119,13 +136,13 @@
       <hr class="mt-4 mx-4 text-zinc-600">
       <!-- Campo Nome -->
       <div class="mb-4 mx-4 mt-4">
-        <label for="taskName" class="block text-white mb-1">Nome da Tarefa</label>
-        <input type="text" id="taskName" name="taskName" placeholder="Digite o nome da tarefa" class=" w-full bg-zinc-800 text-white border border-zinc-700 rounded-lg px-3 py-2">
+        <label for="taskNameInput" class="block text-white mb-1">Nome da Tarefa</label>
+        <input type="text" id="taskNameInput" placeholder="Digite o nome da tarefa" class=" w-full bg-zinc-800 text-white border border-zinc-700 rounded-lg px-3 py-2">
       </div>
       <!-- Campo Descrição -->
       <div class="mb-4 mx-4">
-        <label for="taskDescription" class="block text-white mb-1">Descrição</label>
-        <textarea id="taskDescription" name="taskDescription" rows="3" placeholder="Digite a descrição" class=" w-full bg-zinc-800 text-white border border-zinc-700 rounded-lg px-3 py-2 resize-none"></textarea>
+        <label for="taskDescriptionInput" class="block text-white mb-1">Descrição</label>
+        <textarea id="taskDescriptionInput" rows="3" placeholder="Digite a descrição" class=" w-full bg-zinc-800 text-white border border-zinc-700 rounded-lg px-3 py-2 resize-none"></textarea>
       </div>
       <!-- Campo Descrição -->
       
