@@ -34,9 +34,9 @@
     <nav class="font-semibold">
         <ul class="flex space-x-4 mr-10">
             <!-- Notification -->
-            <li><img src="../assets/NotificationButton.svg" alt="notification" class="p-1.5 rounded-lg hover:bg-zinc-500 transition-colors  duration-200">
+            <li><img src="../assets/NotificationButton.svg" alt="notification" class="p-1.5 rounded-md hover:bg-zinc-500 transition-colors duration-200 active:bg-zinc-600">
             <!-- User -->
-            <li class="flex items-center space-x-3 px-3 hover:bg-zinc-500 rounded-lg transition-colors duration-200">
+            <li class="flex items-center space-x-3 px-3 hover:bg-zinc-500 rounded-md transition-colors duration-200 active:bg-zinc-600">
               <img src="../assets/account_circle.svg" alt="" class="account_button rounded ">
               <p> José </p>
             </li>
@@ -47,125 +47,224 @@
   <!-- Fim Header -->
 
 
-  <main class="overflow-x-auto flex items-baseline">
+  <main id="scrollableContainer" class="overflow-x-auto flex items-baseline hide-scrollbar">
     <!-- Board -->
     <div id="Board" class="flex flex-nowrap mx-2 mt-10">
-      <!-- Coluna/Lista -->
-      <div id="list-1" class="bg-zinc-800 border-3 m-4 border-zinc-700 w-[500px] min-h-[600px] rounded-lg flex-shrink-0 self-start">
-        <!-- Título & Opções-->
-        <section class="flex justify-between items-center mx-3 my-4">
-          <!-- Title -->
-          <h1 class="text-xl font-bold text-white ">Teste</h1>
-          <!-- Opções da Coluna/Lista -->
-          <button class="text-gray-300 text-xl leading-none pb-1 px-2 rounded-lg hover:bg-zinc-700 transition-colors">&hellip;</button>
-        </section>
-        <!-- Tasks Container -->
-        <div id="tasks-list1">
-          <!-- Task Container -->
-          <section id="task-1" class="border border-zinc-700 bg-zinc-800 mx-2 mb-3 rounded-md">
-            <!-- Prioridade & Finalizar Task -->
-            <div id="priority&finalize" class="flex justify-between">
-              <!-- Priority -->
-              <img src="../assets/PriorityTags/PriorityLow.svg" alt="Priority Tag" class="ml-3 mt-3">
-              <!-- Botão Finalizar -->
-              <button onclick="document.getElementById('finalize').src='../assets/Checked-Clicked.svg'" type="button" class="flex items-center space-x-2 mr-3 mt-3 px-4 hover:bg-zinc-700 rounded transition-colors">
-                <img src="../assets/Frame 55.svg" id="finalize" class="finalize_task">
-                <span class="text-white font-semibold">Finalizar</span>
-              </button>
-            </div>
-              <!-- Nome Task -->
-            <h2 class="text-lg text-white font-semibold my-2 mx-3">Task1</h2>
-            <!-- Descrição Task -->
-            <p class="text-white mx-3 mb-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis sint quidem quo veritatis, libero, officiis dicta quos fuga repudiandae incidunt aut id possimus quas? Repellendus saepe recusandae voluptatem deserunt ipsum?</p>
-            <div class="my-4 text-zinc-500 font-bold">
-              <input class="ml-3 px-2 py-1 bg-zinc-300 border border-zinc-700 rounded-lg"  type="date" id="" name="">
-            </div>
-          </section>
-          <!-- Fim Task Container-->
-        </div>
-        <!-- Fim Task Container -->
-
-          <!-- Botão de Nova tarefa -->
-          <button onclick="openTaskForm()" id="" class="openTaskFormButton flex items-center space-x-2 mx-3 mb-3 px-3 py-1 hover:bg-zinc-700 rounded transition-colors">
-            <img src="../assets/BsFillPlusCircleFill.svg" alt="" class="w-5 h-5">
-            <span class="text-white text-sm font-semibold">Nova Tarefa</span>
-          </button>
-      </div>
-      <!-- Fim Coluna/Lista -->
-    <!-- Fim Board -->
-  </div>
-
-  <!-- Botão para adicionar colunas -->
-  <button id="addColumnButton" class="addColumnButton flex items-center min-w-fit space-x-2 mr-4 hover:bg-zinc-700 rounded transition-colors">
-    <img src="../assets/BsFillPlusCircleFill.svg" alt="" class="w-5 h-5">
-    <span class="text-white text-sm font-semibold">Nova Lista</span>
-  </button>
-  
-  <!-- Formulário Criação Tarefas -->
-  <div id="taskForm" class="fixed top-0 right-0 w-96 h-full bg-zinc-800 shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out z-50">
-    <!-- Cabeçalho do Formulário -->
-    <div class="flex justify-between items-center mt-4 bg-zinc-800 p-4 text-white">
-      <h2 class="text-4xl font-bold">Nova Tarefa</h2>
       
-      <!-- Ícone Fechar Forms -->
-      <button id="closeTaskFormButton" class="text-gray-400 hover:text-white transition">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-        </svg>
-      </button>
+    <!-- Fim Board -->
     </div>
-    <hr class="mt-4 mx-4 text-zinc-600">
-    <!-- Formulário -->
-    <form>
-      <!-- Data -->
-      <div class="mt-4 mx-4  text-white ">
-        <form action="/action_page.php">
-          <label for="deadline" class="text-lg">Data de Conclusão</label>
-          <input class="ml-10 px-2 py-1 bg-zinc-800 border border-zinc-700 rounded-lg dark:[color-scheme:dark]"  type="date" id="deadline" name="deadline">
-        </form>
+
+    <!-- Botão para adicionar colunas -->
+    <button id="addColumnButton" class="addColumnButton flex items-center min-w-fit space-x-2 mr-4 hover:bg-zinc-700 rounded transition-colors">
+      <img src="../assets/BsFillPlusCircleFill.svg" alt="" class="w-5 h-5">
+      <span class="text-white text-sm font-semibold">Nova Lista</span>
+    </button>
+
+    <!-- Form de Criação de Coluna -->
+    <div id="columnForm" class="fixed inset-0 bg-opacity-50 flex justify-center items-center hidden">
+      <div class="bg-zinc-800 p-6 rounded-lg shadow-lg w-96">
+        <h2 class="text-xl font-bold text-white mb-4">Nome da Nova Coluna</h2>
+        <input id="columnNameInput" type="text" placeholder="Digite o nome da coluna" class="w-full px-3 py-2 mb-4 bg-zinc-700 text-white border border-zinc-600 rounded">
+        <div class="flex justify-end space-x-2">
+          <button id="cancelColumnButton" class=" bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Cancelar</button>
+          <button id="confirmColumnButton" class=" bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Adicionar</button>
+        </div>
       </div>
-      <div class="mt-2 mb-4 mx-4 flex items-center">
-        <label for="taskPriorityInput" class="block text-white mb-1 text-lg">Prioridade</label>
-        <select id="taskPriorityInput" class=" bg-zinc-800 text-white border border-zinc-700 rounded-lg ml-40 px-3 py-2 resize-none">
-          <option value="PrioritySuperHigh">Altíssima</option>
-          <option value="PriorityHigh">Alta</option>
-          <option value="PriorityMedium">Média</option>
-          <option value="PriorityLow">Baixa</option>
-        </select>
+    </div>
+
+    <!-- Form de Atualização de Coluna -->
+    <div id="columnFormAtt" class="fixed inset-0 bg-opacity-50 flex justify-center items-center hidden">
+      <div class="bg-zinc-800 p-6 rounded-lg shadow-lg w-96">
+        <h2 class="text-xl font-bold text-white mb-4">Atualizar nome Coluna</h2>
+        <input id="columnNameAttInput" type="text" placeholder="Digite o nome da coluna" class="w-full px-3 py-2 mb-4 bg-zinc-700 text-white border border-zinc-600 rounded">
+        <div class="flex justify-end space-x-2">
+          <button id="cancelColumnAttButton" class=" bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Cancelar</button>
+          <button id="confirmColumnAttButton" class=" bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Atualizar</button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Formulário Criação Tarefas -->
+    <div id="taskForm" class="fixed top-0 right-0 w-96 h-full bg-zinc-800 shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out z-50">
+      <!-- Cabeçalho do Formulário -->
+      <div class="flex justify-between items-center mt-4 bg-zinc-800 p-4 text-white">
+        <h2 class="text-4xl font-bold">Nova Tarefa</h2>
+        <!-- Ícone Fechar Forms -->
+        <button id="closeTaskFormButton" class="text-gray-400 hover:text-white transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <!-- Nome da Lista -->
+      <p id="currentColumnName" class="text-lg text-gray-400 w-fit mx-4"></p>
+      <hr class="mt-4 mx-4 text-zinc-600">
+      <!-- Formulário -->
+      <form>
+        <!-- Data -->
+        <div class="mt-4 mx-4  text-white ">
+          <form>
+            <label for="deadline" class="text-lg">Data de Conclusão</label>
+            <input class="ml-10 px-2 py-1 bg-zinc-800 border border-zinc-700 rounded-lg dark:[color-scheme:dark]"  type="date" id="deadline" name="deadline">
+          </form>
+        </div>
+        <div class="mt-2 mb-4 mx-4 flex items-center">
+          <label for="taskPriorityInput" class="block text-white mb-1 text-lg">Prioridade</label>
+          <select id="taskPriorityInput" class=" bg-zinc-800 text-white border border-zinc-700 rounded-lg ml-40 px-3 py-2 resize-none">
+            <option value="PrioritySuperHigh">Altíssima</option>
+            <option value="PriorityHigh">Alta</option>
+            <option value="PriorityMedium">Média</option>
+            <option value="PriorityLow">Baixa</option>
+          </select>
+        </div>
+        <hr class="mt-4 mx-4 text-zinc-600">
+        <!-- Campo Nome -->
+        <div class="mb-4 mx-4 mt-4">
+          <label for="taskNameInput" class="block text-white mb-1">Nome da Tarefa</label>
+          <input type="text" id="taskNameInput" placeholder="Digite o nome da tarefa" class=" w-full bg-zinc-800 text-white border border-zinc-700 rounded-lg px-3 py-2">
+        </div>
+        <!-- Campo Descrição -->
+        <div class="mb-4 mx-4">
+          <label for="taskDescriptionInput" class="block text-white mb-1">Descrição</label>
+          <textarea id="taskDescriptionInput" rows="3" placeholder="Digite a descrição" class=" w-full bg-zinc-800 text-white border border-zinc-700 rounded-lg px-3 py-2 resize-none"></textarea>
+        </div>
+        <!-- Campo Descrição -->
+        <!-- Botão de Envio -->
+        <button id="confirmTaskButton" type="submit" class=" bg-blue-500 text-white px-4 py-2 mx-4 rounded hover:bg-blue-600 transition">
+          Criar Tarefa
+        </button>
+      </form>
+    </div>
+
+    <!-- Formulário Atualização Tarefas -->
+    <div id="taskAttForm" class="fixed top-0 right-0 w-96 h-full bg-zinc-800 shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out z-50">
+      <!-- Cabeçalho do Formulário -->
+      <div class="flex justify-between items-center mt-4 bg-zinc-800 p-4 text-white">
+        <h2 class="text-4xl font-bold">Atualizar Tarefa</h2>
+        <!-- Ícone Fechar Forms -->
+        <button id="closeTaskAttFormButton" class="text-gray-400 hover:text-white transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
       </div>
       <hr class="mt-4 mx-4 text-zinc-600">
-      <!-- Campo Nome -->
-      <div class="mb-4 mx-4 mt-4">
-        <label for="taskNameInput" class="block text-white mb-1">Nome da Tarefa</label>
-        <input type="text" id="taskNameInput" placeholder="Digite o nome da tarefa" class=" w-full bg-zinc-800 text-white border border-zinc-700 rounded-lg px-3 py-2">
-      </div>
-      <!-- Campo Descrição -->
-      <div class="mb-4 mx-4">
-        <label for="taskDescriptionInput" class="block text-white mb-1">Descrição</label>
-        <textarea id="taskDescriptionInput" rows="3" placeholder="Digite a descrição" class=" w-full bg-zinc-800 text-white border border-zinc-700 rounded-lg px-3 py-2 resize-none"></textarea>
-      </div>
-      <!-- Campo Descrição -->
-      
-      <!-- Botão de Envio -->
-      <button id="confirmTaskButton" type="submit" class=" bg-blue-500 text-white px-4 py-2 mx-4 rounded hover:bg-blue-600 transition">
-        Criar Tarefa
-      </button>
-    </form>
-  </div>
+      <!-- Formulário -->
+      <form>
+        <!-- Data -->
+        <div class="mt-4 mx-4  text-white ">
+          <form>
+            <label for="deadlineAtt" class="text-lg">Data de Conclusão</label>
+            <input class="ml-10 px-2 py-1 bg-zinc-800 border border-zinc-700 rounded-lg dark:[color-scheme:dark]"  type="date" id="deadlineAtt" name="deadlineAtt">
+          </form>
+        </div>
+        <div class="mt-2 mb-4 mx-4 flex items-center">
+          <label for="taskPriorityattInput" class="block text-white mb-1 text-lg">Prioridade</label>
+          <select id="taskPriorityAttInput" class=" bg-zinc-800 text-white border border-zinc-700 rounded-lg ml-40 px-3 py-2 resize-none">
+            <option value="PrioritySuperHigh">Altíssima</option>
+            <option value="PriorityHigh">Alta</option>
+            <option value="PriorityMedium">Média</option>
+            <option value="PriorityLow">Baixa</option>
+          </select>
+        </div>
+        <hr class="mt-4 mx-4 text-zinc-600">
+        <!-- Campo Nome -->
+        <div class="mb-4 mx-4 mt-4">
+          <label for="taskNameAttInput" class="block text-white mb-1">Nome da Tarefa</label>
+          <input type="text" id="taskNameAttInput" placeholder="Digite o nome da tarefa" class=" w-full bg-zinc-800 text-white border border-zinc-700 rounded-lg px-3 py-2">
+        </div>
+        <!-- Campo Descrição -->
+        <div class="mb-4 mx-4">
+          <label for="taskDescriptionAttInput" class="block text-white mb-1">Descrição</label>
+          <textarea id="taskDescriptionAttInput" rows="3" class=" w-full bg-zinc-800 text-white border border-zinc-700 rounded-lg px-3 py-2 resize-none"></textarea>
+        </div>
+        <!-- Campo Descrição -->
+        <!-- Botão de Envio -->
+        <button id="attTaskButton" type="submit" class=" bg-blue-500 text-white px-4 py-2 mx-4 rounded hover:bg-blue-600 transition">
+          Atualizar Tarefa
+        </button>
+        <hr class="mt-4 mx-4 text-zinc-600">
+        <!-- Botão de Excluir Task -->
+        <button id="deleteTaskButton" type="button" class="text-danger px-4 py-2 mx-4 rounded flex items-center">
+          <img src="../assets/Bin.svg" alt="Lixeira" class="">
+          <p class="ml-2">Deletar</p>
+        </button>
+      </form>
+    </div>
 
-  <!-- Form de Criação de Coluna -->
-  <div id="columnForm" class="fixed inset-0 bg-opacity-50 flex justify-center items-center hidden">
-    <div class="bg-zinc-800 p-6 rounded-lg shadow-lg w-96">
-      <h2 class="text-xl font-bold text-white mb-4">Nome da Nova Coluna</h2>
-      <input id="columnNameInput" type="text" placeholder="Digite o nome da coluna" class="w-full px-3 py-2 mb-4 bg-zinc-700 text-white border border-zinc-600 rounded">
-      <div class="flex justify-end space-x-2">
-        <button id="cancelColumnButton" class=" bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Cancelar</button>
-        <button id="confirmColumnButton" class=" bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Adicionar</button>
+    <!-- Form de Confirmação de Exclusão -->
+    <div id="deleteTaskForm" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+      <div class="bg-zinc-800 p-6 rounded-lg shadow-lg w-[400px] text-white border border-zinc-600">
+          <div class="flex justify-between items-center">
+              <span class="text-xl font-bold">Tem certeza que deseja deletar a tarefa </span>
+              <span id="deleteTaskName" class="text-xl font-bold"></span>
+              <span class="text-xl font-bold">?</span>
+              <button id="closeDeleteTaskForm" class="text-gray-400 hover:text-white">
+                  <img src="../assets/CloseFormDelete.svg" alt="" class="ml-2">
+              </button>
+          </div>
+          <p class="mt-4 text-sm text-gray-400">Essa ação não é reversível.</p>
+          <div class="flex justify-end mt-6 space-x-2">
+              <button id="confirmDeleteTaskButton" type="button" class="text-danger px-4 py-2 mx-4 rounded flex items-center">
+                <img src="../assets/Bin.svg" alt="Lixeira" class="">
+                <p class="ml-2">Deletar</p>
+              </button>
+          </div>
       </div>
     </div>
-  </div>
 
-</main>
+    <!-- Form de Confirmação de Exclusão -->
+    <div id="deleteListForm" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+      <div class="bg-zinc-800 p-6 rounded-lg shadow-lg w-[400px] text-white border border-zinc-600">
+          <div class="flex justify-between items-center">
+              <span class="text-xl font-bold">Tem certeza que deseja deletar a lista </span>
+              <span id="deleteListName" class="text-xl font-bold"></span>
+              <span class="text-xl font-bold">?</span>
+              <button id="closeDeleteListForm" class="text-gray-400 hover:text-white">
+                  <img src="../assets/CloseFormDelete.svg" alt="" class="ml-2">
+              </button>
+          </div>
+          <p class="mt-4 text-sm text-gray-400">Essa ação não é reversível.</p>
+          <div class="flex justify-end mt-6 space-x-2">
+              <button id="confirmDeleteListButton" type="button" class="text-danger px-4 py-2 mx-4 rounded flex items-center">
+                <img src="../assets/Bin.svg" alt="Lixeira" class="">
+                <p class="ml-2">Deletar</p>
+              </button>
+          </div>
+      </div>
+    </div>
+
+    <!-- Notificação de Confirmação de Exclusão de Task (Centralizada) -->
+    <div id="deleteConfirmation" class="hidden fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-green-800 text-white py-2 px-4 rounded-lg shadow-lg flex items-center space-x-2 z-50">
+      <img src="../assets/CheckFullCircleGreen.svg" alt="Confirmation">
+      <span id="itemDeleted"></span>
+      <span id="confirmationMessage"> deletada com sucesso!</span>
+      <button id="closeNotification" class="text-gray-200 hover:text-white">
+        <img src="../assets/XGreen.svg" alt="CloseConfirmation">
+      </button>
+    </div>
+
+
+    <!-- Menu de Contexto -->
+    <div id="contextMenuTask" class="hidden fixed bg-zinc-800 text-white rounded border border-zinc-600 shadow-lg z-50">
+      <ul>
+        <li id="editTaskOption" class="px-4 py-2 hover:bg-zinc-700 cursor-pointer flex items-center">
+          <img src="../assets/EditPencil.svg" alt="Lapis" class="w-3 h-3">
+          <p class="ml-2">Editar</p>
+        </li>
+        <li id="duplicateTaskOption" class="px-4 py-2 hover:bg-zinc-700 cursor-pointer flex items-center">
+          <img src="../assets/BsPlusSquareDotted.svg" alt="Duplicate" class="w-3 h-3">
+          <p class="ml-2">Duplicar</p>
+        </li>
+        <li id="deleteTaskOption" class="px-3 py-2 hover:bg-zinc-700 cursor-pointer flex items-center">
+          <img src="../assets/Bin.svg" alt="Lixeira" class="">
+          <p class="ml-2 text-danger">Deletar</p>
+        </li>
+      </ul>
+    </div>
+
+
+  </main>
   
 
 

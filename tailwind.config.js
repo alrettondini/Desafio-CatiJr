@@ -2,6 +2,9 @@
 module.exports = {
     content: ["./*.{html,js}"],
     theme: {
+      colors: {
+        'red-danger': '#AF0505'
+      },
       extend: {},
     },
     plugins: [

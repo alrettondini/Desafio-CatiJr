@@ -377,6 +377,7 @@
     --default-mono-font-variation-settings: var(
       --font-mono--font-variation-settings
     );
+    --color-danger: #AF0505;
   }
 }
 @layer base {
@@ -548,6 +549,24 @@
   .z-50 {
     z-index: 50;
   }
+  .container {
+    width: 100%;
+    @media (width >= 40rem) {
+      max-width: 40rem;
+    }
+    @media (width >= 48rem) {
+      max-width: 48rem;
+    }
+    @media (width >= 64rem) {
+      max-width: 64rem;
+    }
+    @media (width >= 80rem) {
+      max-width: 80rem;
+    }
+    @media (width >= 96rem) {
+      max-width: 96rem;
+    }
+  }
   .m-4 {
     margin: calc(var(--spacing) * 4);
   }
@@ -640,6 +659,12 @@
   }
   .min-h-\[600px\] {
     min-height: 600px;
+  }
+  .min-h-20 {
+    min-height: 20px;
+  }
+  .min-h-40 {
+    min-height: 40px;
   }
   .w-0 {
     width: calc(var(--spacing) * 0);
@@ -797,6 +822,15 @@
   .bg-zinc-300 {
     background-color: var(--color-zinc-300);
   }
+  .bg-zinc-400 {
+    background-color: var(--color-zinc-400);
+  }
+  .bg-zinc-500 {
+    background-color: var(--color-zinc-500);
+  }
+  .bg-zinc-600 {
+    background-color: var(--color-zinc-600);
+  }
   .bg-zinc-700 {
     background-color: var(--color-zinc-700);
   }
@@ -888,6 +922,9 @@
   }
   .text-zinc-500 {
     color: var(--color-zinc-500);
+  }
+  .text-danger {
+    color: var(--color-danger);
   }
   .text-zinc-600 {
     color: var(--color-zinc-600);
@@ -1161,4 +1198,45 @@
 @property --tw-ease {
   syntax: "*";
   inherits: false;
+}
+
+/* Efeito de blur no fundo do modal */
+#deleteTaskForm {
+  background-color: rgba(0, 0, 0, 0.4); /* Fundo escuro com opacidade */
+  backdrop-filter: blur(1px); /* Adiciona o efeito de blur */
+}
+
+/* Notificação de Confirmação */
+#deleteConfirmation {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: 0; /* Invisível por padrão */
+  transform: translateY(20px); /* Movido para baixo por padrão */
+}
+
+#deleteConfirmation.show {
+  opacity: 1; /* Visível */
+  transform: translateY(0); /* Volta à posição original */
+}
+
+/* Menu de Contexto */
+#contextMenuTask {
+  min-width: 150px;
+  display: none;
+}
+
+#contextMenuTask ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#contextMenuTask li {
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+.no-select {
+  user-select: none; /* Padrão */
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10+/Edge */
 }
