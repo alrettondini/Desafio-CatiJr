@@ -1,3 +1,5 @@
+
+
 document.addEventListener("DOMContentLoaded", function () {
   // Selecionando os elementos do DOM
   const taskForm = document.getElementById('taskForm');
@@ -10,12 +12,16 @@ document.addEventListener("DOMContentLoaded", function () {
   const confirmTaskButton = document.getElementById("confirmTaskButton");
   const addColumnButton = document.getElementById("addColumnButton");
   const deleteTaskForm = document.getElementById("deleteTaskForm");
+  const deleteListForm = document.getElementById("deleteListForm");
   const closeDeleteTaskForm = document.getElementById("closeDeleteTaskForm");
-  const confirmDeleteTasButton = document.getElementById("confirmDeleteTaskButton");
+  const closeDeleteListForm = document.getElementById("closeDeleteListForm");
+  const confirmDeleteTaskButton = document.getElementById("confirmDeleteTaskButton");
+  const confirmDeleteListButton = document.getElementById("confirmDeleteListButton");
   const contextMenuTask = document.getElementById("contextMenuTask");
   const columnFormAtt = document.getElementById("columnFormAtt");
 
   let draggedTask = null; // Tarefa que está sendo arrastada
+
   let taskToDelete = null; // Tarefa a ser deletada
   let activeTaskElement = null; // Tarefa selecionada
   let activeColumnId = null; // ID Coluna Selecionada
@@ -27,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Criar um novo elemento de coluna
     const newColumn = document.createElement("div");
-    newColumn.className = "list bg-zinc-800 border-3 m-4 border-zinc-700 w-[500px] min-h-[600px] rounded-lg flex-shrink-0 self-start";
+    newColumn.className = "list bg-zinc-800 border m-4 border-zinc-700 sm:min-w-[400px] w-[350px] sm:min-h-[600px] min-h-[400px] rounded-lg flex-shrink-0 self-start";
     newColumn.id = columnId;
     newColumn.setAttribute("ondrop", "drop(event)");
     newColumn.setAttribute("ondragover", "allowDrop(event)");
@@ -41,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <ul>
             <li class="renameListOption px-2 py-2 flex items-center space-x-2 hover:bg-zinc-700 cursor-pointer">
               <img src="../assets/EditPencil.svg" class="">
-              <p>Renomear Lista</p>
+              <p>Renomear</p>
             </li>
             <li class="deleteListOption text-danger px-2 py-2 flex items-center space-x-2 hover:bg-zinc-700 cursor-pointer">
               <img src="../assets/Bin.svg" class="">
@@ -69,12 +75,16 @@ document.addEventListener("DOMContentLoaded", function () {
     // Abre context menu das listas
     menuButton.addEventListener("click", function (e) {
       e.stopPropagation(); // Previne que o clique feche o menu
-      // Calcula a posição do menu
-      const rect = menuButton.getBoundingClientRect(); 
-      menu.style.top = `${rect.bottom + window.scrollY}px`;
-      menu.style.left = `${rect.left + window.scrollX}px`;
-      
+      // Temporariamente exibe o menu para pegar a largura real
       menu.classList.remove("hidden");
+
+      // Obtém a posição do botão e a largura do menu
+      const rect = menuButton.getBoundingClientRect();
+      const menuWidth = menu.offsetWidth; // Agora o valor está correto
+
+      menu.style.top = `${rect.bottom + window.scrollY}px`;
+      menu.style.left = `${rect.right - menuWidth + window.scrollX}px`;
+      
     });
 
     // Fechar context menu das listas ao clicar fora
@@ -94,7 +104,10 @@ document.addEventListener("DOMContentLoaded", function () {
     // Adicionar evento para deletar a lista
     const deleteOption = newColumn.querySelector(".deleteListOption");
     deleteOption.addEventListener("click", function () {
-      deleteColumn(newColumn);
+      if(newColumn.id == "A Fazer"){
+      }
+
+      openDeleteListForm(newColumn);
     });
 
     // Adicionar a nova coluna ao board
@@ -139,13 +152,6 @@ document.addEventListener("DOMContentLoaded", function () {
       activeColumnElement = null;
     } else {
       alert("O nome da coluna não pode estar vazio!");
-    }
-  }
-
-  // Função para deletar a lista
-  function deleteColumn(columnElement) {
-    if (confirm("Tem certeza que deseja deletar esta lista?")) {
-      columnElement.remove();
     }
   }
 
@@ -219,7 +225,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const date = new Date(year, month - 1, day); // `month - 1` porque os meses começam de 0 no JS
 
     // Usa Intl.DateTimeFormat para formatar corretamente
-    const formatter = new Intl.DateTimeFormat("pt-BR", { // Alterado para pt-BR
+    const formatter = new Intl.DateTimeFormat("en-US", {
         day: "2-digit",
         month: "short",
         year: "numeric",
@@ -258,9 +264,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 </button>
             </div>
             <h2 class="text-lg text-white font-semibold my-2 mx-3">${taskName}</h2>
-            <p class="text-white mx-3 mb-3 max-h-20 overflow-y-auto hide-scrollbar">${taskDescription}</p>
+            <p class="text-white mx-3 mb-3 max-w-[350px] max-h-25 overflow-y-scroll hide-scrollbar ">${taskDescription}</p>
             <section class="flex justify-between mx-3">
-              <div class="flex items-center my-3 text-zinc-600 bg-zinc-300 border border-zinc-700 rounded-lg w-fit">
+              <div id="task-date" class="flex items-center my-3 text-zinc-600 bg-zinc-300 rounded-lg w-fit">
                 <img src="../assets/Callendar.svg" alt="Callendar" class="ml-2">
                 <p class="date px-2 py-1 font-semibold" data-date="${taskDeadline}">${formattedDate}</p>
               </div>
@@ -463,24 +469,24 @@ document.addEventListener("DOMContentLoaded", function () {
   // Chama form de deletar task pelo botão no form de edição
   document.getElementById("deleteTaskButton").addEventListener("click", function () {
     if (activeTaskElement) {
-        openDeleteForm(activeTaskElement);
+        openDeleteTaskForm(activeTaskElement);
     }
   });
 
   // Chama form de deletar task pelo context menu
   document.getElementById("deleteTaskOption").addEventListener("click", function() {
     if (activeTaskElement) {
-      openDeleteForm(activeTaskElement);
+      openDeleteTaskForm(activeTaskElement);
     }
   });
 
   // Form de deleção de task (apenas confirmação)
-  function openDeleteForm(taskElement) {
+  function openDeleteTaskForm(taskElement) {
     taskToDelete = taskElement; // Define a tarefa a ser deletada
 
     // Pega o nome da tarefa e exibe no form
     const taskName = taskElement.querySelector("h2").textContent;
-    document.getElementById("deleteTaskName").textContent = `"${taskName}"`;
+    document.getElementById("deleteTask").textContent += `"${taskName}"?`;
 
     deleteTaskForm.classList.remove("hidden");
   }
@@ -492,14 +498,41 @@ document.addEventListener("DOMContentLoaded", function () {
       taskToDelete.remove(); // Remove a tarefa do DOM
       showDeleteConfirmation("Task"); // Chama confirmação de deleção
     }
-    closeDeleteFormFunc(); // Fecha o Form
+    closeDeleteTaskFormFunc(); // Fecha o Form
   });
 
   // Fecha caixinha de confirmação de delete de elemento (cancela deleção)
-  closeDeleteTaskForm.addEventListener("click", closeDeleteFormFunc);
-  function closeDeleteFormFunc() {
+  closeDeleteTaskForm.addEventListener("click", closeDeleteTaskFormFunc);
+  function closeDeleteTaskFormFunc() {
     taskToDelete = null; // Limpa a referência da tarefa
     deleteTaskForm.classList.add("hidden");
+  }
+
+  // Form de deleção de lista (apenas confirmação)
+  function openDeleteListForm(listElement) {
+    listToDelete = listElement; // Define a tarefa a ser deletada
+
+    // Pega o nome da tarefa e exibe no form
+    const listName = listElement.querySelector("h1").textContent;
+    document.getElementById("deleteListName").textContent = `"${listName}"`;
+
+    deleteListForm.classList.remove("hidden");
+  }
+
+  // Confirma deleção de task no form
+  confirmDeleteListButton.addEventListener("click", function () {
+    if (listToDelete) {
+      listToDelete.remove(); // Remove a tarefa do DOM
+      showDeleteConfirmation("Lista"); // Chama confirmação de deleção
+    }
+    closeDeleteListFormFunc(); // Fecha o Form
+  });
+
+  // Fecha caixinha de confirmação de delete de elemento (cancela deleção)
+  closeDeleteListForm.addEventListener("click", closeDeleteListFormFunc);
+  function closeDeleteListFormFunc() {
+    listToDelete = null; // Limpa a referência da lista
+    deleteListForm.classList.add("hidden");
   }
 
   // Confirmação de exclusão de elemento (tanto task quanto lista)
@@ -572,51 +605,59 @@ document.addEventListener("DOMContentLoaded", function () {
       if (tasksContainer) {
         tasksContainer.appendChild(draggedTask); // Move a tarefa para o tasks-container
       }
-      column.style.backgroundColor = ""; // Remove o destaque da coluna
     }
   });
 
-  // Selecionando o contêiner rolável
-  const scrollableContainer = document.getElementById('scrollableContainer');
+   // Função para verificar e destacar tarefas vencidas
+   function highlightExpiredTasks() {
+    const taskDateElements = document.querySelectorAll('.date[data-date]');
 
-  let isDragging = false;
-  let startX;
-  let scrollLeftPos;
+    taskDateElements.forEach(taskDateElement => {
+      const taskDateAttribute = taskDateElement.getAttribute('data-date');
+      if (taskDateAttribute) {
+        // Extrair dia, mês e ano da data no formato YYYY-MM-DD
+        const [year, month, day] = taskDateAttribute.split('-');
 
-  // Função para iniciar o arrasto
-  function startDrag(e) {
-    isDragging = true;
-    scrollableContainer.classList.add('active', 'no-select'); // Adiciona a classe para desativar seleção
-    startX = e.pageX ? e.pageX - scrollableContainer.offsetLeft : e.touches[0].pageX - scrollableContainer.offsetLeft;
-    scrollLeftPos = scrollableContainer.scrollLeft;
+        const taskDate = new Date(year, month - 1, day); // Mês - 1 porque os meses em JavaScript são baseados em zero
+        
+        const currentDate = new Date();
+
+        // Comparação apenas por dia, mês e ano
+        const currentDay = currentDate.getDate();
+        const currentMonth = currentDate.getMonth();
+        const currentYear = currentDate.getFullYear();
+        const taskDay = taskDate.getDate();
+        const taskMonth = taskDate.getMonth();
+        const taskYear = taskDate.getFullYear();
+
+        taskDateElement.parentElement.classList.remove('bg-red-500'); // Adiciona remove fundo antigo
+        taskDateElement.parentElement.classList.add('bg-zinc-300'); // Adiciona remove fundo antigo
+
+        if ((taskYear < currentYear) || (taskYear === currentYear && taskMonth < currentMonth) || (taskYear === currentYear && taskMonth === currentMonth && taskDay < currentDay)) {
+          taskDateElement.parentElement.classList.remove('bg-zinc-300'); // Adiciona remove fundo antigo
+          taskDateElement.parentElement.classList.add('bg-red-300'); // Adiciona fundo vermelho
+        }
+        
+        if (taskYear === currentYear && taskMonth === currentMonth && taskDay === currentDay) {
+          taskDateElement.parentElement.classList.remove('bg-zinc-300'); // Adiciona remove fundo antigo
+          taskDateElement.parentElement.classList.add('bg-orange-300'); // Adiciona fundo vermelho
+        }
+      }
+    });
   }
 
-  // Função para terminar o arrasto
-  function stopDrag() {
-    isDragging = false;
-    scrollableContainer.classList.remove('active', 'no-select'); // Remove a classe
-  }
+  // Chamada inicial para verificar tarefas vencidas ao carregar a página
+  highlightExpiredTasks();
 
-  // Função para durante o arrasto
-  function onDrag(e) {
-    if (!isDragging) return;
-    e.preventDefault();
-    const x = e.pageX ? e.pageX - scrollableContainer.offsetLeft : e.touches[0].pageX - scrollableContainer.offsetLeft;
-    const walk = (x - startX) * 2; // Ajuste a velocidade conforme necessário
-    scrollableContainer.scrollLeft = scrollLeftPos - walk;
-  }
+  // Evento para verificar tarefas vencidas após adicionar ou editar uma tarefa
+  confirmTaskButton.addEventListener("click", function(event){
+    event.preventDefault(); // Evita o envio do formulário
+    highlightExpiredTasks(); // Verifica tarefas vencidas após adicionar nova tarefa
+  });
 
-  // Eventos de Mouse
-  scrollableContainer.addEventListener('mousedown', startDrag);
-  scrollableContainer.addEventListener('mouseleave', stopDrag);
-  scrollableContainer.addEventListener('mouseup', stopDrag);
-  scrollableContainer.addEventListener('mousemove', onDrag);
-
-  // Eventos de Touch
-  scrollableContainer.addEventListener('touchstart', startDrag);
-  scrollableContainer.addEventListener('touchend', stopDrag);
-  scrollableContainer.addEventListener('touchcancel', stopDrag);
-  scrollableContainer.addEventListener('touchmove', onDrag);
-
-
+  // Evento para verificar tarefas vencidas após editar uma tarefa
+  attTaskButton.addEventListener("click", function(event){
+    event.preventDefault(); // Evita o envio do formulário
+    highlightExpiredTasks(); // Verifica tarefas vencidas após editar tarefa
+  });
 });

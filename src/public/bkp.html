@@ -1,0 +1,41 @@
+<div class="list bg-zinc-800 border m-4 border-zinc-700 sm:min-w-[400px] w-[350px] sm:min-h-[600px] min-h-[400px] rounded-lg flex-shrink-0 self-start">
+    <section class="flex justify-between items-center mx-3 my-4">
+        <h1 class="text-xl font-bold text-white">${columnName}</h1>
+        <button class="menuButton text-gray-300 text-xl leading-none pb-1 px-2 rounded-lg hover:bg-zinc-700 transition-colors">&hellip;</button>
+        <div class="menu hidden absolute bg-zinc-800 text-white rounded border border-zinc-600 shadow-lg z-50">
+        <ul>
+            <li class="renameListOption px-2 py-2 flex items-center space-x-2 hover:bg-zinc-700 cursor-pointer">
+            <img src="../assets/EditPencil.svg" class="">
+            <p>Renomear</p>
+            </li>
+            <li class="deleteListOption text-danger px-2 py-2 flex items-center space-x-2 hover:bg-zinc-700 cursor-pointer">
+            <img src="../assets/Bin.svg" class="">
+            <p>Deletar</p>
+            </li>
+        </ul>
+        </div>
+    </section>
+    <div id="tasks-${columnId}" class="tasks-container"></div>
+    <button type="button" class="flex items-center space-x-2 mx-3 mb-3 px-3 py-1 hover:bg-zinc-700 rounded transition-colors addTaskButton">
+        <img src="../assets/BsFillPlusCircleFill.svg" alt="" class="w-5 h-5">
+        <span class="text-white text-sm font-semibold">Nova Tarefa</span>
+    </button>
+</div>
+
+<section class="task border border-zinc-700 bg-zinc-800 mx-2 mb-3 rounded-md">
+    <div class="flex justify-between">
+        <img src="../assets/PriorityTags/${taskPriority}.svg" alt="Priority Tag" class="ml-3 mt-3">
+        <button type="button" class="flex items-center space-x-2 mr-3 mt-3 px-4 w-fit">
+            <img src="../assets/CheckBorderDots.svg" id="finalize" class="finalize_task">
+            <span class="text-white font-semibold">Finalizar</span>
+        </button>
+    </div>
+    <h2 class="text-lg text-white font-semibold my-2 mx-3">${taskName}</h2>
+    <p class="text-white mx-3 mb-3 max-w-[350px] max-h-25 overflow-y-scroll hide-scrollbar ">${taskDescription}</p>
+    <section class="flex justify-between mx-3">
+      <div id="task-date" class="flex items-center my-3 text-zinc-600 bg-zinc-300 rounded-lg w-fit">
+        <img src="../assets/Callendar.svg" alt="Callendar" class="ml-2">
+        <p class="date px-2 py-1 font-semibold" data-date="${taskDeadline}">${formattedDate}</p>
+      </div>
+    </section>
+</section>
